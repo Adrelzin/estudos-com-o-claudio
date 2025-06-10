@@ -261,6 +261,7 @@
         .secao-azul .conteudo-secao {
             transform: rotate(90deg) translateY(120px);
             width: 100%;
+            flex-direction: column;
         }
 
         .imagem-secao {
@@ -274,6 +275,28 @@
         }
 
         /* Texto especial na seção azul */
+        .texto-voce{
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
+            letter-spacing: 0.1em;
+            margin-bottom: 10px;
+            animation: pulsar 2s infinite;
+        }
+
+        .texto-e {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
+            letter-spacing: 0.1em;
+            margin-bottom: 10px;
+            animation: pulsar 2s infinite;
+        }
+
         .texto-meu {
             font-family: 'Georgia', 'Times New Roman', serif;
             font-size: 3rem;
@@ -282,6 +305,7 @@
             text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
             letter-spacing: 0.2em;
             animation: pulsar 2s infinite;
+            animation-delay: 0.5s;
         }
 
         .circulo-visible {
@@ -377,6 +401,10 @@
                 border-radius: 18px;
             }
 
+            .texto-voce-e {
+                font-size: 1.5rem;
+            }
+
             .texto-meu {
                 font-size: 2rem;
             }
@@ -423,6 +451,8 @@
                 
                 <article class="secao-circulo secao-azul">
                     <div class="conteudo-secao">
+                        <span class="texto-voce" aria-hidden="true">VOCÊ</span>
+                        <span class="texto-e" aria-hidden="true">É</span>
                         <span class="texto-meu" aria-hidden="true">MEU</span>
                     </div>
                 </article>
@@ -434,14 +464,12 @@
     </main>
 
     <script>
-        // Elementos do DOM
         const botaoInicial = document.getElementById('botao-inicial');
         const mensagemPrincipal = document.getElementById('mensagem-principal');
         const fundoAnimado = document.getElementById('fundo-animado');
         const circuloContainer = document.getElementById('circulo-container');
         const botaoAvancar1 = document.getElementById('botao-avancar-1');
 
-        // Função para criar efeito de piscar
         function criarEfeitoPiscar(classeEfeito) {
             const elementoPiscar = document.createElement('div');
             elementoPiscar.classList.add(classeEfeito);
@@ -449,7 +477,6 @@
             return elementoPiscar;
         }
 
-        // Função para remover elemento após delay
         function removerElemento(elemento, delay) {
             setTimeout(() => {
                 if (elemento && elemento.parentNode) {
@@ -458,7 +485,6 @@
             }, delay);
         }
 
-        // Event listener para o botão inicial
         botaoInicial.addEventListener('click', function() {
             botaoInicial.classList.add('hidden');
             fundoAnimado.classList.add('fundo-visivel');
@@ -466,39 +492,23 @@
             setTimeout(() => {
                 mensagemPrincipal.classList.remove('hidden');
                 mensagemPrincipal.classList.add('visible');
-            }, 400);
+            }, 800);
         });
 
-        // Event listener para o primeiro botão de avançar
         botaoAvancar1.addEventListener('click', function() {
             const piscar = criarEfeitoPiscar('piscar-effect');
             
             setTimeout(() => {
                 removerElemento(piscar, 0);
                 
-                // Remove a mensagem e o fundo
                 mensagemPrincipal.classList.remove('visible');
                 mensagemPrincipal.classList.add('hidden');
                 fundoAnimado.classList.remove('fundo-visivel');
-                
-                // Adiciona a classe para o fundo rosa gradient
                 document.body.classList.add('tela-rosa');
-                
-                // Mostra o círculo dividido
                 circuloContainer.classList.add('circulo-visible');
-            }, 1500);
+            }, 2000);
         });
 
-        // Adiciona suporte para navegação por teclado
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Enter' || event.key === ' ') {
-                const elementoAtivo = document.activeElement;
-                if (elementoAtivo && elementoAtivo.tagName === 'BUTTON') {
-                    event.preventDefault();
-                    elementoAtivo.click();
-                }
-            }
-        });
     </script>
 </body>
 </html>
