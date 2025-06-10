@@ -300,6 +300,22 @@
             object-fit: cover;
         }
 
+        /* Imagem inferior */
+        .imagem-inferior {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+            width: 100%;
+        }
+
+        .imagem-mundo {
+            width: 400px;
+            height: 200px;
+            border-radius: 15px;
+        }
+
+
         /* Efeitos de transição */
         .piscar-effect {
             position: fixed;
@@ -323,21 +339,6 @@
             z-index: 1000;
             animation: piscarReverso 1.5s ease-out forwards;
             pointer-events: none;
-        }
-
-        /* Mensagem final */
-        .mensagem-final {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: #ff6b6b;
-            font-size: 2.5rem;
-            font-weight: 700;
-            text-align: center;
-            opacity: 0;
-            animation: aparecer 2s ease-out 0.5s forwards;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         /* Responsividade */
@@ -373,11 +374,6 @@
 
             .texto-meu {
                 font-size: 2rem;
-            }
-
-            .mensagem-final {
-                font-size: 2rem;
-                padding: 20px;
             }
         }
     </style>
@@ -425,6 +421,9 @@
                         <span class="texto-meu" aria-hidden="true">MEU</span>
                     </div>
                 </article>
+            </div>
+            <div class="imagem-inferior">
+                <img src="HTML5 e CSS3/Site_namorados/images/Mundo.png" alt="Mundo" class="imagem-mundo">
             </div>
         </section>
     </main>
@@ -479,66 +478,6 @@
                 
                 // Mostra o círculo dividido
                 circuloContainer.classList.add('circulo-visible');
-                
-                // Adiciona botão de avançar no círculo
-                const containerBotao = document.createElement('div');
-                containerBotao.style.cssText = `
-                    display: flex;
-                    justify-content: center;
-                    width: 100%;
-                    margin-top: 30px;
-                    position: absolute;
-                    bottom: -80px;
-                    left: 0;
-                `;
-                
-                const botaoAvancar2 = document.createElement('button');
-                botaoAvancar2.className = 'botao-avancar';
-                botaoAvancar2.textContent = 'Finalizar';
-                botaoAvancar2.setAttribute('aria-label', 'Finalizar apresentação');
-                
-                containerBotao.appendChild(botaoAvancar2);
-                circuloContainer.appendChild(containerBotao);
-                
-                // Event listener para o segundo botão
-                botaoAvancar2.addEventListener('click', function() {
-                    const piscar2 = criarEfeitoPiscar('piscar-effect');
-                    
-                    setTimeout(() => {
-                        removerElemento(piscar2, 0);
-                        document.body.classList.add('tela-preta');
-                        
-                        // Espera na tela preta
-                        setTimeout(() => {
-                            const piscarReverso = criarEfeitoPiscar('piscar-reverso-effect');
-                            
-                            setTimeout(() => {
-                                removerElemento(piscarReverso, 0);
-                                
-                                // Remove tudo e mostra mensagem final
-                                document.body.classList.remove('tela-preta');
-                                document.body.classList.add('tela-branca');
-                                
-                                // Remove todos os elementos filhos exceto scripts
-                                const children = Array.from(document.body.children);
-                                children.forEach(child => {
-                                    if (child.tagName !== 'SCRIPT') {
-                                        child.remove();
-                                    }
-                                });
-
-                                // Cria mensagem final
-                                const mensagemFinal = document.createElement('div');
-                                mensagemFinal.className = 'mensagem-final';
-                                mensagemFinal.textContent = 'Você completa meu coração! ❤️';
-                                mensagemFinal.setAttribute('role', 'dialog');
-                                mensagemFinal.setAttribute('aria-live', 'polite');
-                                
-                                document.body.appendChild(mensagemFinal);
-                            }, 1500);
-                        }, 1000);
-                    }, 1500);
-                });
             }, 1500);
         });
 
