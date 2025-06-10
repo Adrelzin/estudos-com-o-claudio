@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartinha♡</title>
+    <style>
+        @keyframes pulsar {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes subirFundo {
+            0% { 
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            100% { 
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes piscar {
+            0% { opacity: 1; }
+            5% { opacity: 0; }
+            15% { opacity: 1; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes piscarReverso {
+            0% { opacity: 0; }
+            5% { opacity: 1; }
+            15% { opacity: 0; }
+            100% { opacity: 0; }
+        }
+
+        @keyframes aparecer {
+            0% { opacity: 0; transform: scale(0.5); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            position: relative;
+            background: #ffffff;
+            transition: all 0.5s ease;
+        }
+
+        body.tela-preta {
+            background-color: #000;
+        }
+
+        body.tela-preta * {
+            display: none !important;
+        }
+
+        body.tela-branca {
+            background: #fff;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .visible {
+            display: flex;
+        }
+
+        /* Botão do coração */
+        .botao-coracao {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 10;
+        }
+
+        .botao-coracao:hover {
+            transform: scale(1.15);
+            animation: pulsar 2s infinite;
+            animation-delay: 0s !important;
+        }
+
+        .imagem-coracao {
+            width: 300px;
+            height: 300px;
+            display: block;
+            border-radius: 50%;
+            object-fit: cover;
+            animation: pulsar 2s infinite;
+            transition: transform 0.3s;
+        }
+
+        /* Fundo animado */
+        #fundo-animado {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('HTML5 e CSS3/Site_namorados/fundo.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: 1;
+            transform: translateY(100%);
+            opacity: 0;
+            transition: all 0.8s ease;
+        }
+
+        .fundo-visivel {
+            animation: subirFundo 0.8s ease-out forwards;
+        }
+
+        /* Mensagem principal */
+        .mensagem {
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px;
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.5s ease;
+            position: relative;
+            z-index: 5;
+            backdrop-filter: blur(10px);
+        }
+
+        .mensagem.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .mensagem h1 {
+            color: #ff6b6b;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .mensagem p {
+            color: #555;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        /* Botão de avançar */
+        .botao-avancar {
+            background: linear-gradient(45deg, #ff6b6b, #ff5252);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .botao-avancar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        .botao-avancar:active {
+            transform: translateY(0);
+        }
+
+        /* Círculo dividido */
+        .circulo-container {
+            position: relative;
+            width: min(80vw, 600px);
+            height: min(80vw, 600px);
+            margin-bottom: 30px;
+            display: none;
+        }
+
+        .circulo-dividido {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            transform: rotate(-90deg);
+        }
+
+        .secao-circulo {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .secao-vermelha {
+            clip-path: polygon(50% 50%, 50% 0%, 100% 0%, 100% 50%);
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        .secao-verde {
+            clip-path: polygon(50% 50%, 100% 50%, 100% 100%, 50% 100%);
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+        }
+
+        .secao-azul {
+            clip-path: polygon(50% 50%, 50% 100%, 0% 100%, 0% 0%, 50% 0%);
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+
+        .conteudo-secao {
+            transform: rotate(90deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .secao-vermelha .conteudo-secao {
+            margin-left: 15%;
+            margin-bottom: 30%;
+            transform: rotate(90deg) translateX(-40px) translateY(-60px);
+        }
+
+        .secao-verde .conteudo-secao {
+            margin-left: 30%;
+            margin-top: 30%;
+            transform: rotate(90deg) translateX(60px) translatey(-10px);
+        }
+
+        .secao-azul .conteudo-secao {
+            transform: rotate(90deg) translateY(120px);
+            width: 100%;
+        }
+
+        .imagem-secao {
+            width: 200px;
+            height: 200px;
+        }
+
+        .imagem-secao:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Texto especial na seção azul */
+        .texto-meu {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
+            letter-spacing: 0.2em;
+            animation: pulsar 2s infinite;
+        }
+
+        .circulo-visible {
+            display: block;
+            animation: aparecer 1s ease-out forwards;
+        }
+
+        .placeholder-imagem {
+            width: 200px;
+            height: 200px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .placeholder-imagem img {
+            width: 200px;
+            height: 200px;
+            border-radius: 70%;
+            object-fit: cover;
+        }
+
+        /* Efeitos de transição */
+        .piscar-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            z-index: 1000;
+            animation: piscar 1.5s ease-out forwards;
+            pointer-events: none;
+        }
+
+        .piscar-reverso-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            z-index: 1000;
+            animation: piscarReverso 1.5s ease-out forwards;
+            pointer-events: none;
+        }
+
+        /* Mensagem final */
+        .mensagem-final {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ff6b6b;
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            opacity: 0;
+            animation: aparecer 2s ease-out 0.5s forwards;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .mensagem {
+                padding: 30px 20px;
+                margin: 20px;
+            }
+
+            .mensagem h1 {
+                font-size: 1.5rem;
+            }
+
+            .mensagem p {
+                font-size: 1rem;
+            }
+
+            .imagem-coracao {
+                width: 200px;
+                height: 200px;
+            }
+
+            .circulo-container {
+                width: 90vw;
+                height: 90vw;
+            }
+
+            .imagem-secao, .placeholder-imagem {
+                width: 90px;
+                height: 90px;
+                border-radius: 18px;
+            }
+
+            .texto-meu {
+                font-size: 2rem;
+            }
+
+            .mensagem-final {
+                font-size: 2rem;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <button id="botao-inicial" class="botao-coracao" aria-label="Clique no coração para começar">
+            <img src="HTML5 e CSS3/Site_namorados/coração.jpg" alt="Coração" class="imagem-coracao">
+        </button>
+        
+        <section id="mensagem-principal" class="mensagem hidden" role="dialog" aria-labelledby="titulo-mensagem">
+            <h1 id="titulo-mensagem">Para a garota mais linda do mundo!</h1>
+            <p>Olá, querida! ❤️</p>
+            <p>Espero que esta pequena surpresa te faça sorrir! 😊</p>
+            <p>Eu te amoooooooooooooooooooooooooooo! ❤️❤️❤️</p>
+            <button class="botao-avancar" id="botao-avancar-1">Avançar</button>
+        </section>
+
+        <div id="fundo-animado" aria-hidden="true"></div>
+
+        <section id="circulo-container" class="circulo-container" role="dialog" aria-label="Seções do nosso amor">
+            <div class="circulo-dividido">
+                <article class="secao-circulo secao-vermelha">
+                    <div class="conteudo-secao">
+                        <img src="HTML5 e CSS3/Site_namorados/momento1.jpg" alt="Nossos momentos especiais" class="imagem-secao" 
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="placeholder-imagem" style="display: none;">
+                            <img src="HTML5 e CSS3/Site_namorados/images/nos.jpg" alt="">
+                        </div>
+                    </div>
+                </article>
+                
+                <article class="secao-circulo secao-verde">
+                    <div class="conteudo-secao">
+                        <img src="HTML5 e CSS3/Site_namorados/amor.jpg" alt="Nosso amor crescendo" class="imagem-secao"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="placeholder-imagem" style="display: none;">
+                            <img src="HTML5 e CSS3/Site_namorados/images/MinhaTefa.jpg" alt="">
+                        </div>
+                    </div>
+                </article>
+                
+                <article class="secao-circulo secao-azul">
+                    <div class="conteudo-secao">
+                        <span class="texto-meu" aria-hidden="true">MEU</span>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Elementos do DOM
+        const botaoInicial = document.getElementById('botao-inicial');
+        const mensagemPrincipal = document.getElementById('mensagem-principal');
+        const fundoAnimado = document.getElementById('fundo-animado');
+        const circuloContainer = document.getElementById('circulo-container');
+        const botaoAvancar1 = document.getElementById('botao-avancar-1');
+
+        // Função para criar efeito de piscar
+        function criarEfeitoPiscar(classeEfeito) {
+            const elementoPiscar = document.createElement('div');
+            elementoPiscar.classList.add(classeEfeito);
+            document.body.appendChild(elementoPiscar);
+            return elementoPiscar;
+        }
+
+        // Função para remover elemento após delay
+        function removerElemento(elemento, delay) {
+            setTimeout(() => {
+                if (elemento && elemento.parentNode) {
+                    elemento.remove();
+                }
+            }, delay);
+        }
+
+        // Event listener para o botão inicial
+        botaoInicial.addEventListener('click', function() {
+            botaoInicial.classList.add('hidden');
+            fundoAnimado.classList.add('fundo-visivel');
+            
+            setTimeout(() => {
+                mensagemPrincipal.classList.remove('hidden');
+                mensagemPrincipal.classList.add('visible');
+            }, 400);
+        });
+
+        // Event listener para o primeiro botão de avançar
+        botaoAvancar1.addEventListener('click', function() {
+            const piscar = criarEfeitoPiscar('piscar-effect');
+            
+            setTimeout(() => {
+                removerElemento(piscar, 0);
+                
+                // Remove a mensagem e o fundo
+                mensagemPrincipal.classList.remove('visible');
+                mensagemPrincipal.classList.add('hidden');
+                fundoAnimado.classList.remove('fundo-visivel');
+                
+                // Mostra o círculo dividido
+                circuloContainer.classList.add('circulo-visible');
+                
+                // Adiciona botão de avançar no círculo
+                const containerBotao = document.createElement('div');
+                containerBotao.style.cssText = `
+                    display: flex;
+                    justify-content: center;
+                    width: 100%;
+                    margin-top: 30px;
+                    position: absolute;
+                    bottom: -80px;
+                    left: 0;
+                `;
+                
+                const botaoAvancar2 = document.createElement('button');
+                botaoAvancar2.className = 'botao-avancar';
+                botaoAvancar2.textContent = 'Finalizar';
+                botaoAvancar2.setAttribute('aria-label', 'Finalizar apresentação');
+                
+                containerBotao.appendChild(botaoAvancar2);
+                circuloContainer.appendChild(containerBotao);
+                
+                // Event listener para o segundo botão
+                botaoAvancar2.addEventListener('click', function() {
+                    const piscar2 = criarEfeitoPiscar('piscar-effect');
+                    
+                    setTimeout(() => {
+                        removerElemento(piscar2, 0);
+                        document.body.classList.add('tela-preta');
+                        
+                        // Espera na tela preta
+                        setTimeout(() => {
+                            const piscarReverso = criarEfeitoPiscar('piscar-reverso-effect');
+                            
+                            setTimeout(() => {
+                                removerElemento(piscarReverso, 0);
+                                
+                                // Remove tudo e mostra mensagem final
+                                document.body.classList.remove('tela-preta');
+                                document.body.classList.add('tela-branca');
+                                
+                                // Remove todos os elementos filhos exceto scripts
+                                const children = Array.from(document.body.children);
+                                children.forEach(child => {
+                                    if (child.tagName !== 'SCRIPT') {
+                                        child.remove();
+                                    }
+                                });
+
+                                // Cria mensagem final
+                                const mensagemFinal = document.createElement('div');
+                                mensagemFinal.className = 'mensagem-final';
+                                mensagemFinal.textContent = 'Você completa meu coração! ❤️';
+                                mensagemFinal.setAttribute('role', 'dialog');
+                                mensagemFinal.setAttribute('aria-live', 'polite');
+                                
+                                document.body.appendChild(mensagemFinal);
+                            }, 1500);
+                        }, 1000);
+                    }, 1500);
+                });
+            }, 1500);
+        });
+
+        // Adiciona suporte para navegação por teclado
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter' || event.key === ' ') {
+                const elementoAtivo = document.activeElement;
+                if (elementoAtivo && elementoAtivo.tagName === 'BUTTON') {
+                    event.preventDefault();
+                    elementoAtivo.click();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
