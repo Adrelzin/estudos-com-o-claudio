@@ -71,6 +71,11 @@
             background: #fff;
         }
 
+        /* Nova classe para o fundo rosa gradient na tela do círculo */
+        body.tela-rosa {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+        }
+
         .hidden {
             display: none;
         }
@@ -475,6 +480,9 @@
                 mensagemPrincipal.classList.remove('visible');
                 mensagemPrincipal.classList.add('hidden');
                 fundoAnimado.classList.remove('fundo-visivel');
+                
+                // Adiciona a classe para o fundo rosa gradient
+                document.body.classList.add('tela-rosa');
                 
                 // Mostra o círculo dividido
                 circuloContainer.classList.add('circulo-visible');
