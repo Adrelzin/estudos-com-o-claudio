@@ -101,8 +101,8 @@
         }
 
         .imagem-coracao {
-            width: 300px;
-            height: 300px;
+            width: 200px;
+            height: 200px;
             display: block;
             border-radius: 50%;
             object-fit: cover;
@@ -135,8 +135,9 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 40px;
-            max-width: 600px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
             background: rgba(255, 255, 255, 0.95);
             border-radius: 25px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
@@ -155,14 +156,14 @@
 
         .mensagem h1 {
             color: #ff6b6b;
-            font-size: 2rem;
+            font-size: 1.8rem;
             margin-bottom: 20px;
             font-weight: 700;
         }
 
         .mensagem p {
             color: #555;
-            font-size: 1.1rem;
+            font-size: 1rem;
             line-height: 1.6;
             margin-bottom: 15px;
         }
@@ -171,9 +172,9 @@
             background: linear-gradient(45deg, #ff6b6b, #ff5252);
             color: white;
             border: none;
-            padding: 15px 30px;
+            padding: 12px 25px;
             border-radius: 25px;
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 600;
             cursor: pointer;
             margin-top: 20px;
@@ -192,8 +193,8 @@
 
         .circulo-container {
             position: relative;
-            width: min(80vw, 600px);
-            height: min(80vw, 600px);
+            width: 400px;
+            height: 400px;
             margin-bottom: 30px;
             display: none;
         }
@@ -243,24 +244,27 @@
         .secao-vermelha .conteudo-secao {
             margin-left: 15%;
             margin-bottom: 30%;
-            transform: rotate(90deg) translateX(-40px) translateY(-60px);
+            transform: rotate(90deg) translateX(-30px) translateY(-40px);
         }
 
         .secao-verde .conteudo-secao {
             margin-left: 30%;
             margin-top: 30%;
-            transform: rotate(90deg) translateX(60px) translatey(-10px);
+            transform: rotate(90deg) translateX(40px) translateY(-10px);
         }
 
         .secao-azul .conteudo-secao {
-            transform: rotate(90deg) translateY(160px);
+            transform: rotate(90deg) translateY(80px);
             width: 100%;
             flex-direction: column;
         }
 
         .imagem-secao {
-            width: 200px;
-            height: 200px;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            transition: all 0.3s ease;
         }
 
         .imagem-secao:hover {
@@ -270,29 +274,29 @@
 
         .texto-voce{
             font-family: 'Georgia', 'Times New Roman', serif;
-            font-size: 2.5rem;
+            font-size: 1.5rem;
             font-weight: bold;
             color: white;
             text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
             letter-spacing: 0.1em;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             animation: pulsar 2s infinite;
         }
 
         .texto-e {
             font-family: 'Georgia', 'Times New Roman', serif;
-            font-size: 2.5rem;
+            font-size: 1.5rem;
             font-weight: bold;
             color: white;
             text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
             letter-spacing: 0.1em;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             animation: pulsar 2s infinite;
         }
 
         .texto-meu {
             font-family: 'Georgia', 'Times New Roman', serif;
-            font-size: 3rem;
+            font-size: 2rem;
             font-weight: bold;
             color: white;
             text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
@@ -307,18 +311,19 @@
         }
 
         .placeholder-imagem {
-            width: 200px;
-            height: 200px;
-            border-radius: 20px;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
         }
 
         .placeholder-imagem img {
-            width: 200px;
-            height: 200px;
-            border-radius: 70%;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
             object-fit: cover;
         }
 
@@ -326,16 +331,15 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-top: 30px;
+            margin-top: 20px;
             width: 100%;
         }
 
         .imagem-mundo {
-            width: 400px;
-            height: 200px;
+            width: 200px;
+            height: 100px;
             border-radius: 15px;
-            position: absolute;
-            top: -50;
+            object-fit: cover;
         }
 
         .piscar-effect {
@@ -364,88 +368,173 @@
 
         /* Responsividade Mobile */
         @media (max-width: 768px) {
-            body {
-                background-color: #000;
-            }
-            
-            .botao-coracao {
-                width: 20px;
-                height: 20px;
-            }
-
-            /* Aumentar sections específicas no mobile */
-            section#mensagem-principal {
-                width: 95vw !important;
-                min-height: 90vh !important;
-                padding: 60px 30px !important;
-                font-size: 1.3em !important;
-                max-width: none !important;
-                margin: 10px auto !important;
-            }
-            
-            section#circulo-container {
-                width: 100vw !important;
-                height: 100vw !important;
-                padding: 20px !important;
-                max-width: none !important;
-            }
-
-            .mensagem {
-                padding: 60px 30px !important;
-                margin: 10px !important;
-                max-width: none !important;
-                width: 95vw !important;
-            }
-
-            .mensagem h1 {
-                font-size: 2rem !important;
-            }
-
-            .mensagem p {
-                font-size: 1.3rem !important;
-            }
-
             .imagem-coracao {
                 width: 200px;
                 height: 200px;
             }
 
+            .mensagem {
+                padding: 35px;
+                max-width: 430px;
+                width: 96%;
+            }
+
+            .mensagem h1 {
+                font-size: 1.7rem;
+            }
+
+            .mensagem p {
+                font-size: 1.05rem;
+            }
+
             .circulo-container {
-                width: 100vw !important;
-                height: 100vw !important;
-                max-width: none !important;
+                width: 350px;
+                height: 350px;
             }
 
             .imagem-secao, .placeholder-imagem {
                 width: 90px;
                 height: 90px;
-                border-radius: 18px;
+            }
+
+            .secao-vermelha .conteudo-secao {
+                transform: rotate(90deg) translateX(-25px) translateY(-30px);
+            }
+
+            .secao-verde .conteudo-secao {
+                transform: rotate(90deg) translateX(30px) translateY(-8px);
+            }
+
+            .secao-azul .conteudo-secao {
+                transform: rotate(90deg) translateY(60px);
             }
 
             .texto-voce, .texto-e {
-                font-size: 1.5rem;
+                font-size: 1.2rem;
+                margin-bottom: 5px;
             }
 
             .texto-meu {
-                font-size: 2rem;
+                font-size: 1.5rem;
+            }
+
+            .imagem-mundo {
+                width: 150px;
+                height: 75px;
             }
         }
 
         /* Para smartphones muito pequenos */
         @media (max-width: 480px) {
-            section#mensagem-principal {
-                width: 100vw !important;
-                min-height: 100vh !important;
-                padding: 70px 20px !important;
-                font-size: 1.4em !important;
-                margin: 0 !important;
+            .imagem-coracao {
+                width: 150px;
+                height: 150px;
             }
-            
+
             .mensagem {
-                width: 100vw !important;
-                padding: 70px 20px !important;
-                margin: 0 !important;
-                border-radius: 0 !important;
+                padding: 25px;
+                max-width: 350px;
+                width: 95%;
+            }
+
+            .mensagem h1 {
+                font-size: 1.4rem;
+            }
+
+            .mensagem p {
+                font-size: 0.9rem;
+            }
+
+            .circulo-container {
+                width: 280px;
+                height: 280px;
+            }
+
+            .imagem-secao, .placeholder-imagem {
+                width: 80px;
+                height: 80px;
+            }
+
+            .secao-vermelha .conteudo-secao {
+                transform: rotate(90deg) translateX(-20px) translateY(-25px);
+            }
+
+            .secao-verde .conteudo-secao {
+                transform: rotate(90deg) translateX(25px) translateY(-8px);
+            }
+
+            .secao-azul .conteudo-secao {
+                transform: rotate(90deg) translateY(50px);
+            }
+
+            .texto-voce, .texto-e {
+                font-size: 1rem;
+                margin-bottom: 3px;
+            }
+
+            .texto-meu {
+                font-size: 1.3rem;
+            }
+
+            .imagem-mundo {
+                width: 120px;
+                height: 60px;
+            }
+        }
+
+        /* Para desktop maior */
+        @media (min-width: 1200px) {
+            .imagem-coracao {
+                width: 250px;
+                height: 250px;
+            }
+
+            .mensagem {
+                max-width: 600px;
+                padding: 40px;
+            }
+
+            .mensagem h1 {
+                font-size: 2.2rem;
+            }
+
+            .mensagem p {
+                font-size: 1.2rem;
+            }
+
+            .circulo-container {
+                width: 500px;
+                height: 500px;
+            }
+
+            .imagem-secao, .placeholder-imagem {
+                width: 150px;
+                height: 150px;
+            }
+
+            .secao-vermelha .conteudo-secao {
+                transform: rotate(90deg) translateX(-40px) translateY(-50px);
+            }
+
+            .secao-verde .conteudo-secao {
+                transform: rotate(90deg) translateX(50px) translateY(-15px);
+            }
+
+            .secao-azul .conteudo-secao {
+                transform: rotate(90deg) translateY(120px);
+            }
+
+            .texto-voce, .texto-e {
+                font-size: 1.8rem;
+            }
+
+            .texto-meu {
+                font-size: 2.5rem;
+            }
+
+            .imagem-mundo {
+                width: 250px;
+                height: 125px;
             }
         }
     </style>
