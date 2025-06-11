@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cartinha♡</title>
     <style>
-        @keyframes pulsar {
+       @keyframes pulsar {
             0% { transform: scale(1); }
             50% { transform: scale(1.1); }
             100% { transform: scale(1); }
@@ -71,7 +71,6 @@
             background: #fff;
         }
 
-        /* Nova classe para o fundo rosa gradient na tela do círculo */
         body.tela-rosa {
             background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
         }
@@ -84,7 +83,6 @@
             display: flex;
         }
 
-        /* Botão do coração */
         .botao-coracao {
             background: none;
             border: none;
@@ -112,14 +110,13 @@
             transition: transform 0.3s;
         }
 
-        /* Fundo animado */
         #fundo-animado {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('HTML5 e CSS3/Site_namorados/fundo.jpg');
+            background-image: url('fundo.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -133,7 +130,6 @@
             animation: subirFundo 0.8s ease-out forwards;
         }
 
-        /* Mensagem principal */
         .mensagem {
             flex-direction: column;
             align-items: center;
@@ -171,7 +167,6 @@
             margin-bottom: 15px;
         }
 
-        /* Botão de avançar */
         .botao-avancar {
             background: linear-gradient(45deg, #ff6b6b, #ff5252);
             color: white;
@@ -195,7 +190,6 @@
             transform: translateY(0);
         }
 
-        /* Círculo dividido */
         .circulo-container {
             position: relative;
             width: min(80vw, 600px);
@@ -274,7 +268,6 @@
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
         }
 
-        /* Texto especial na seção azul */
         .texto-voce{
             font-family: 'Georgia', 'Times New Roman', serif;
             font-size: 2.5rem;
@@ -329,7 +322,6 @@
             object-fit: cover;
         }
 
-        /* Imagem inferior */
         .imagem-inferior {
             display: flex;
             justify-content: center;
@@ -342,10 +334,10 @@
             width: 400px;
             height: 200px;
             border-radius: 15px;
+            position: absolute;
+            top: -50;
         }
 
-
-        /* Efeitos de transição */
         .piscar-effect {
             position: fixed;
             top: 0;
@@ -370,19 +362,47 @@
             pointer-events: none;
         }
 
-        /* Responsividade */
+        /* Responsividade Mobile */
         @media (max-width: 768px) {
+            body {
+                background-color: #000;
+            }
+            
+            .botao-coracao {
+                width: 20px;
+                height: 20px;
+            }
+
+            /* Aumentar sections específicas no mobile */
+            section#mensagem-principal {
+                width: 95vw !important;
+                min-height: 90vh !important;
+                padding: 60px 30px !important;
+                font-size: 1.3em !important;
+                max-width: none !important;
+                margin: 10px auto !important;
+            }
+            
+            section#circulo-container {
+                width: 100vw !important;
+                height: 100vw !important;
+                padding: 20px !important;
+                max-width: none !important;
+            }
+
             .mensagem {
-                padding: 30px 20px;
-                margin: 20px;
+                padding: 60px 30px !important;
+                margin: 10px !important;
+                max-width: none !important;
+                width: 95vw !important;
             }
 
             .mensagem h1 {
-                font-size: 1.5rem;
+                font-size: 2rem !important;
             }
 
             .mensagem p {
-                font-size: 1rem;
+                font-size: 1.3rem !important;
             }
 
             .imagem-coracao {
@@ -391,8 +411,9 @@
             }
 
             .circulo-container {
-                width: 90vw;
-                height: 90vw;
+                width: 100vw !important;
+                height: 100vw !important;
+                max-width: none !important;
             }
 
             .imagem-secao, .placeholder-imagem {
@@ -401,7 +422,7 @@
                 border-radius: 18px;
             }
 
-            .texto-voce-e {
+            .texto-voce, .texto-e {
                 font-size: 1.5rem;
             }
 
@@ -409,12 +430,30 @@
                 font-size: 2rem;
             }
         }
+
+        /* Para smartphones muito pequenos */
+        @media (max-width: 480px) {
+            section#mensagem-principal {
+                width: 100vw !important;
+                min-height: 100vh !important;
+                padding: 70px 20px !important;
+                font-size: 1.4em !important;
+                margin: 0 !important;
+            }
+            
+            .mensagem {
+                width: 100vw !important;
+                padding: 70px 20px !important;
+                margin: 0 !important;
+                border-radius: 0 !important;
+            }
+        }
     </style>
 </head>
 <body>
     <main>
         <button id="botao-inicial" class="botao-coracao" aria-label="Clique no coração para começar">
-            <img src="HTML5 e CSS3/Site_namorados/coração.jpg" alt="Coração" class="imagem-coracao">
+            <img src="coração.jpg" alt="Coração" class="imagem-coracao">
         </button>
         
         <section id="mensagem-principal" class="mensagem hidden" role="dialog" aria-labelledby="titulo-mensagem">
@@ -434,7 +473,7 @@
                         <img src="HTML5 e CSS3/Site_namorados/momento1.jpg" alt="Nossos momentos especiais" class="imagem-secao" 
                              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                         <div class="placeholder-imagem" style="display: none;">
-                            <img src="HTML5 e CSS3/Site_namorados/images/nos.jpg" alt="">
+                            <img src="nos.jpg" alt="">
                         </div>
                     </div>
                 </article>
@@ -444,7 +483,7 @@
                         <img src="HTML5 e CSS3/Site_namorados/amor.jpg" alt="Nosso amor crescendo" class="imagem-secao"
                              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                         <div class="placeholder-imagem" style="display: none;">
-                            <img src="HTML5 e CSS3/Site_namorados/images/MinhaTefa.jpg" alt="">
+                            <img src="MinhaTefa.jpg" alt="">
                         </div>
                     </div>
                 </article>
@@ -458,11 +497,10 @@
                 </article>
             </div>
             <div class="imagem-inferior">
-                <img src="HTML5 e CSS3/Site_namorados/images/Mundo.png" alt="Mundo" class="imagem-mundo">
+                <img src="Mundo.png" alt="Mundo" class="imagem-mundo">
             </div>
         </section>
     </main>
-
     <script>
         const botaoInicial = document.getElementById('botao-inicial');
         const mensagemPrincipal = document.getElementById('mensagem-principal');
@@ -508,7 +546,6 @@
                 circuloContainer.classList.add('circulo-visible');
             }, 2000);
         });
-
     </script>
 </body>
 </html>
