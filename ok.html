@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aquário Virtual Mágico</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #001122, #003366, #004488);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .aquarium-container {
+            position: relative;
+            width: 90vw;
+            max-width: 1200px;
+            height: 80vh;
+            background: linear-gradient(180deg, 
+                rgba(0, 100, 200, 0.3) 0%,
+                rgba(0, 150, 255, 0.4) 30%,
+                rgba(0, 200, 255, 0.5) 60%,
+                rgba(0, 100, 150, 0.6) 100%);
+            border-radius: 20px;
+            border: 8px solid #2a5a8a;
+            box-shadow: 
+                0 0 50px rgba(0, 150, 255, 0.3),
+                inset 0 0 100px rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .water-surface {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255, 255, 255, 0.2) 25%, 
+                rgba(255, 255, 255, 0.3) 50%, 
+                rgba(255, 255, 255, 0.2) 75%, 
+                transparent 100%);
+            animation: wave 3s ease-in-out infinite;
+        }
+
+        .fish {
+            position: absolute;
+            width: 60px;
+            height: 40px;
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            border-radius: 50% 10px 50% 10px;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+            animation: swim 8s linear infinite;
+        }
+
+        .fish::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -10px;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+            border-right: 20px solid #ff6b6b;
+        }
+
+        .fish::after {
+            content: '';
+            position: absolute;
+            top: 8px;
+            right: 15px;
+            width: 8px;
+            height: 8px;
+            background: #000;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        .fish2 {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            animation-duration: 12s;
+            animation-delay: -2s;
+            top: 60%;
+            box-shadow: 0 0 20px rgba(78, 205, 196, 0.5);
+        }
+
+        .fish2::before {
+            border-right-color: #4ecdc4;
+        }
+
+        .fish3 {
+            background: linear-gradient(45deg, #a8e6cf, #3d5a80);
+            animation-duration: 10s;
+            animation-delay: -4s;
+            top: 40%;
+            box-shadow: 0 0 20px rgba(168, 230, 207, 0.5);
+        }
+
+        .fish3::before {
+            border-right-color: #a8e6cf;
+        }
+
+        .bubble {
+            position: absolute;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.2));
+            border-radius: 50%;
+            animation: rise 4s linear infinite;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .seaweed {
+            position: absolute;
+            bottom: 0;
+            width: 20px;
+            background: linear-gradient(180deg, #2d5a27, #40826d);
+            border-radius: 50px 50px 0 0;
+            animation: sway 4s ease-in-out infinite;
+            box-shadow: 0 0 10px rgba(64, 130, 109, 0.5);
+        }
+
+        .coral {
+            position: absolute;
+            bottom: 0;
+            width: 40px;
+            height: 60px;
+            background: radial-gradient(circle, #ff7675, #d63031);
+            border-radius: 50% 50% 0 0;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        .coral::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 30px;
+            background: radial-gradient(circle, #fd79a8, #e84393);
+            border-radius: 50% 50% 0 0;
+        }
+
+        .light-ray {
+            position: absolute;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(180deg, 
+                rgba(255, 255, 255, 0.6) 0%,
+                rgba(255, 255, 255, 0.2) 50%,
+                transparent 100%);
+            animation: shimmer 6s ease-in-out infinite;
+        }
+
+        .controls {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+        }
+
+        @keyframes swim {
+            0% { left: -100px; transform: scaleX(1); }
+            45% { transform: scaleX(1); }
+            50% { left: calc(100% + 50px); transform: scaleX(-1); }
+            95% { transform: scaleX(-1); }
+            100% { left: -100px; transform: scaleX(1); }
+        }
+
+        @keyframes rise {
+            0% {
+                bottom: -20px;
+                opacity: 0;
+                transform: translateX(0);
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                bottom: 100%;
+                opacity: 0;
+                transform: translateX(20px);
+            }
+        }
+
+        @keyframes sway {
+            0%, 100% { transform: rotate(-2deg); }
+            50% { transform: rotate(2deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(20px); }
+        }
+
+        @keyframes shimmer {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+
+        .info {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="aquarium-container" id="aquarium">
+        <div class="water-surface"></div>
+        
+        <div class="controls">
+            <button class="btn" onclick="addFish()">🐠 Adicionar Peixe</button>
+            <button class="btn" onclick="addBubbles()">💧 Mais Bolhas</button>
+            <button class="btn" onclick="changeColors()">🌈 Cores</button>
+        </div>
+
+        <div class="fish fish1"></div>
+        <div class="fish fish2"></div>
+        <div class="fish fish3"></div>
+
+        <div class="seaweed" style="left: 10%; height: 80px; animation-delay: 0s;"></div>
+        <div class="seaweed" style="left: 25%; height: 120px; animation-delay: -1s;"></div>
+        <div class="seaweed" style="left: 75%; height: 100px; animation-delay: -2s;"></div>
+        <div class="seaweed" style="left: 90%; height: 90px; animation-delay: -1.5s;"></div>
+
+        <div class="coral" style="left: 15%;"></div>
+        <div class="coral" style="left: 60%; animation-delay: -1s;"></div>
+        <div class="coral" style="left: 85%; animation-delay: -2s;"></div>
+
+        <div class="light-ray" style="left: 20%; animation-delay: 0s;"></div>
+        <div class="light-ray" style="left: 50%; animation-delay: -2s;"></div>
+        <div class="light-ray" style="left: 80%; animation-delay: -4s;"></div>
+
+        <div class="info">
+            🐠 Aquário Virtual Interativo<br>
+            Clique nos botões para interagir!
+        </div>
+    </div>
+
+    <script>
+        let fishCount = 3;
+        const colors = [
+            ['#ff6b6b', '#ffd93d'],
+            ['#4ecdc4', '#44a08d'],
+            ['#a8e6cf', '#3d5a80'],
+            ['#fd79a8', '#e84393'],
+            ['#6c5ce7', '#a29bfe'],
+            ['#fd79a8', '#fdcb6e']
+        ];
+
+        function addFish() {
+            fishCount++;
+            const aquarium = document.getElementById('aquarium');
+            const fish = document.createElement('div');
+            const colorPair = colors[Math.floor(Math.random() * colors.length)];
+            
+            fish.className = 'fish';
+            fish.style.background = `linear-gradient(45deg, ${colorPair[0]}, ${colorPair[1]})`;
+            fish.style.top = Math.random() * 60 + 20 + '%';
+            fish.style.animationDuration = (Math.random() * 6 + 6) + 's';
+            fish.style.animationDelay = Math.random() * -10 + 's';
+            fish.style.boxShadow = `0 0 20px ${colorPair[0]}80`;
+            
+            // Adiciona cauda colorida
+            const style = document.createElement('style');
+            style.textContent = `
+                .fish:nth-child(${fishCount})::before {
+                    border-right-color: ${colorPair[0]};
+                }
+            `;
+            document.head.appendChild(style);
+            
+            aquarium.appendChild(fish);
+            
+            // Remove peixe após um tempo para não sobrecarregar
+            setTimeout(() => {
+                if (fish.parentNode) {
+                    fish.remove();
+                }
+            }, 30000);
+        }
+
+        function addBubbles() {
+            const aquarium = document.getElementById('aquarium');
+            
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    const bubble = document.createElement('div');
+                    bubble.className = 'bubble';
+                    bubble.style.left = Math.random() * 90 + 5 + '%';
+                    bubble.style.width = bubble.style.height = Math.random() * 15 + 8 + 'px';
+                    bubble.style.animationDuration = Math.random() * 3 + 3 + 's';
+                    bubble.style.animationDelay = Math.random() * 2 + 's';
+                    
+                    aquarium.appendChild(bubble);
+                    
+                    setTimeout(() => {
+                        if (bubble.parentNode) {
+                            bubble.remove();
+                        }
+                    }, 8000);
+                }, i * 200);
+            }
+        }
+
+        function changeColors() {
+            const aquarium = document.getElementById('aquarium');
+            const hue = Math.random() * 360;
+            
+            aquarium.style.background = `linear-gradient(180deg, 
+                hsla(${hue}, 70%, 30%, 0.3) 0%,
+                hsla(${hue + 30}, 70%, 40%, 0.4) 30%,
+                hsla(${hue + 60}, 70%, 50%, 0.5) 60%,
+                hsla(${hue + 90}, 70%, 35%, 0.6) 100%)`;
+        }
+
+        // Adiciona bolhas automaticamente
+        setInterval(() => {
+            if (Math.random() < 0.3) {
+                const aquarium = document.getElementById('aquarium');
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                bubble.style.left = Math.random() * 90 + 5 + '%';
+                bubble.style.width = bubble.style.height = Math.random() * 12 + 6 + 'px';
+                bubble.style.animationDuration = Math.random() * 2 + 4 + 's';
+                
+                aquarium.appendChild(bubble);
+                
+                setTimeout(() => {
+                    if (bubble.parentNode) {
+                        bubble.remove();
+                    }
+                }, 6000);
+            }
+        }, 1000);
+
+        // Efeito de clique na água
+        document.getElementById('aquarium').addEventListener('click', function(e) {
+            const ripple = document.createElement('div');
+            ripple.style.position = 'absolute';
+            ripple.style.left = e.offsetX - 25 + 'px';
+            ripple.style.top = e.offsetY - 25 + 'px';
+            ripple.style.width = '50px';
+            ripple.style.height = '50px';
+            ripple.style.background = 'radial-gradient(circle, rgba(255,255,255,0.6), transparent)';
+            ripple.style.borderRadius = '50%';
+            ripple.style.pointerEvents = 'none';
+            ripple.style.animation = 'ripple 1s ease-out';
+            
+            // Adiciona animação de ondulação
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes ripple {
+                    0% { transform: scale(0); opacity: 1; }
+                    100% { transform: scale(4); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            this.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 1000);
+            
+            // Adiciona algumas bolhas no local do clique
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const bubble = document.createElement('div');
+                    bubble.className = 'bubble';
+                    bubble.style.left = e.offsetX + (Math.random() - 0.5) * 100 + 'px';
+                    bubble.style.top = e.offsetY + 'px';
+                    bubble.style.width = bubble.style.height = Math.random() * 10 + 5 + 'px';
+                    bubble.style.animationDuration = Math.random() * 2 + 2 + 's';
+                    
+                    this.appendChild(bubble);
+                    
+                    setTimeout(() => {
+                        if (bubble.parentNode) {
+                            bubble.remove();
+                        }
+                    }, 4000);
+                }, i * 100);
+            }
+        });
+    </script>
+</body>
+</html>
